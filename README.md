@@ -1,6 +1,6 @@
 # p2p-copy
 
-![p2p-copy Demo](/home/falcon/.gemini/antigravity/brain/82fd2e01-6be3-48df-a656-fa635e3756d5/p2p_copy_terminal_demo_1773906137342.png)
+![p2p-copy Demo](assets/demo.png)
 
 Secure P2P-style file transfer via intermediate storage for NAT-restricted Linux systems.
 
