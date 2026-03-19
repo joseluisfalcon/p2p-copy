@@ -1,5 +1,7 @@
 # p2p-copy
 
+![p2p-copy Demo](/home/falcon/.gemini/antigravity/brain/82fd2e01-6be3-48df-a656-fa635e3756d5/p2p_copy_terminal_demo_1773906137342.png)
+
 Secure P2P-style file transfer via intermediate storage for NAT-restricted Linux systems.
 
 ## Features
@@ -29,7 +31,10 @@ install.bat
 p2p-copy send <file_path> [--password <pass>] [--provider <name>]
 ```
 
-Supported providers: `litterbox` (default, 1GB, 1h), `file.io` (2GB), `pixeldrain` (5GB+).
+Supported providers:
+- `litterbox` (default): 1GB limit. Files expire automatically after **1 hour** (no manual delete).
+- `file.io`: 2GB limit. Files are **automatically deleted** after the first download.
+- `pixeldrain`: 5GB+ limit. Files expire after 30 days of inactivity.
 
 ### Custom Relay
 
