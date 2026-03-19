@@ -16,7 +16,15 @@ pip install .
 p2p-copy send <file_path> [--password <pass>] [--provider <name>]
 ```
 
-Supported providers: `file.io` (default, 2GB), `transfer.sh` (10GB).
+Supported providers: `litterbox` (default, 1GB, 1h), `file.io` (2GB), `pixeldrain` (5GB+).
+
+### Custom Relay
+
+If you have your own server that can open ports, you can use it as a relay:
+```bash
+p2p-copy send <file> --relay-url https://your-relay-server.com/upload
+```
+The relay should accept a POST request with the file and return the download URL as plain text.
 
 ### Receive a file
 

@@ -6,6 +6,17 @@ import requests
 from .encryptor import encrypt_file, decrypt_file
 from .providers import get_provider
 
+def print_progress(current, total):
+    """Simple text-based progress bar."""
+    bar_length = 40
+    progress = current / total
+    arrow = "=" * int(round(progress * bar_length) - 1) + ">"
+    spaces = " " * (bar_length - len(arrow))
+    sys.stdout.write(f"\rProgress: [{arrow}{spaces}] {int(progress * 100)}% ({current}/{total} bytes)")
+    sys.stdout.flush()
+    if current >= total:
+        print()
+
 def handle_send(args):
     """Handle the 'send' command."""
     if not os.path.exists(args.file):
@@ -21,11 +32,16 @@ def handle_send(args):
     try:
         encrypt_file(args.file, encrypted_file, password)
         print(f"Uploading to {args.provider}...")
-        provider = get_provider(args.provider)
-        url = provider.upload(encrypted_file)
+        
+        if args.relay_url:
+            from .providers import CustomRelayProvider
+            provider = CustomRelayProvider(args.relay_url)
+        else:
+            provider = get_provider(args.provider)
+            
+        url = provider.upload(encrypted_file, progress_callback=print_progress)
         print(f"\nUpload complete!")
         print(f"Share this URL with the recipient: {url}")
-        print(f"Encrypted local file: {encrypted_file}")
     except Exception as e:
         print(f"Error during send: {e}")
         sys.exit(1)
@@ -47,12 +63,18 @@ def handle_receive(args):
             print(f"Error: Download failed (HTTP {response.status_code})")
             sys.exit(1)
 
+        total_size = int(response.headers.get('content-length', 0))
+        downloaded = 0
         with open(temp_enc_file, 'wb') as f:
             for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
+                if chunk:
+                    f.write(chunk)
+                    downloaded += len(chunk)
+                    if total_size > 0:
+                        print_progress(downloaded, total_size)
 
         output_path = args.output or "received_file"
-        print(f"Decrypting to '{output_path}'...")
+        print(f"\nDecrypting to '{output_path}'...")
         decrypt_file(temp_enc_file, output_path, password)
         print("\nSuccess! File received and decrypted.")
     except Exception as e:
@@ -69,7 +91,8 @@ def main():
     # Send command
     send_parser = subparsers.add_parser("send", help="Encrypt and upload a file")
     send_parser.add_argument("file", help="Path to the file to send")
-    send_parser.add_argument("--provider", default="file.io", choices=["file.io", "transfer.sh"], help="Storage provider")
+    send_parser.add_argument("--provider", default="litterbox", choices=["file.io", "pixeldrain", "litterbox"], help="Storage provider")
+    send_parser.add_argument("--relay-url", help="Custom relay URL (overrides --provider)")
     send_parser.add_argument("--password", help="Encryption password (optional, will prompt if not provided)")
 
     # Receive command

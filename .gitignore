@@ -1,2 +1,3 @@
 .venv/
 activate
+p2p_copy.egg-info/
