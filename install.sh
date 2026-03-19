@@ -1,66 +1,47 @@
 #!/bin/bash
 
-# ANSI Color codes
-BLUE='\033[94m'
-GREEN='\033[92m'
-YELLOW='\033[93m'
-RED='\033[91m'
-BOLD='\033[1m'
-NC='\033[0m' # No Color
+# Configuration
+INSTALL_DIR="$HOME/.p2p-copy"
+BIN_DIR="$HOME/.local/bin"
+BLUE='\033[94m'; GREEN='\033[92m'; YELLOW='\033[93m'; RED='\033[91m'; BOLD='\033[1m'; NC='\033[0m'
 
-# Ensure we are in the script's directory
-cd "$(dirname "$0")"
+echo -e "${BLUE}${BOLD}--- p2p-copy: Installer ---${NC}"
 
-echo -e "${BLUE}${BOLD}-------------------------------------------------------${NC}"
-echo -e "${BLUE}${BOLD}   ____ ___   ____        ______                      ${NC}"
-echo -e "${BLUE}${BOLD}  / __ \\__ \\ / __ \\      / ____/___  ____  __  __ ${NC}"
-echo -e "${BLUE}${BOLD} / /_/ /_/ // /_/ /_____/ /   / __ \\/ __ \\/ / / / ${NC}"
-echo -e "${BLUE}${BOLD}/ ____/ __// ____/_____/ /___/ /_/ / /_/ / /_/ /  ${NC}"
-echo -e "${BLUE}${BOLD}/_/   /____/_/          \\____/\\____/ .___/\\__, /   ${NC}"
-echo -e "${BLUE}${BOLD}                                  /_/    /____/    ${NC}"
-echo -e "${YELLOW}   Secure P2P-style file transfer setup script${NC}"
-echo -e "${BLUE}${BOLD}-------------------------------------------------------${NC}"
+# 1. Prepare target directory
+echo -e "${YELLOW}Step 1: Preparing permanent home in $INSTALL_DIR...${NC}"
+mkdir -p "$INSTALL_DIR"
+mkdir -p "$BIN_DIR"
 
-echo -e "\n${YELLOW}Step 1: Checking system requirements...${NC}"
-
-# 1. Check for Python 3
-if ! command -v python3 &>/dev/null; then
-    echo -e "${RED}Error: python3 is not installed.${NC}"
-    echo "Please install it with: sudo apt update && sudo apt install python3"
-    exit 1
+# 2. Sync files (excluding .git and .venv)
+echo -e "${YELLOW}Step 2: Copying source files...${NC}"
+if command -v rsync &>/dev/null; then
+    rsync -aq --exclude='.git' --exclude='.venv' . "$INSTALL_DIR/"
+else
+    cp -r . "$INSTALL_DIR/"
+    rm -rf "$INSTALL_DIR/.git" "$INSTALL_DIR/.venv"
 fi
 
-# 2. Check for venv module
-if ! python3 -m venv --help &>/dev/null; then
-    echo -e "${RED}Error: the 'venv' module is missing.${NC}"
-    echo "On Debian/Ubuntu, please install it with: sudo apt update && sudo apt install python3-venv"
-    exit 1
-fi
-
-# 3. Create virtual environment
-if [ ! -d ".venv" ]; then
-    echo -e "${GREEN}Creating virtual environment in .venv/...${NC}"
-    python3 -m venv .venv || {
-        echo -e "${RED}Error: Failed to create virtual environment.${NC}"
-        exit 1
-    }
-fi
-
-# 4. Check for pip
-if [ ! -f ".venv/bin/pip" ]; then
-    echo -e "${RED}Error: 'pip' was not found in the virtual environment.${NC}"
-    echo "Try: sudo apt update && sudo apt install python3-pip"
-    exit 1
-fi
-
-# 5. Install/Update
-echo -e "${YELLOW}Step 2: Installing dependencies and p2p-copy...${NC}"
+# 3. Setup Virtual Env
+echo -e "${YELLOW}Step 3: Setting up internal environment in $INSTALL_DIR...${NC}"
+cd "$INSTALL_DIR"
+python3 -m venv .venv
 .venv/bin/pip install --upgrade pip &>/dev/null
 .venv/bin/pip install -e . &>/dev/null
 
-echo -e "\n${GREEN}${BOLD}✔ Installation completed successfully!${NC}"
+# 4. Create the global shim/access in $BIN_DIR
+echo -e "${YELLOW}Step 4: Creating global command...${NC}"
+cat > "$BIN_DIR/p2p-copy" <<EOF
+#!/bin/bash
+"$INSTALL_DIR/.venv/bin/p2p-copy" "\$@"
+EOF
+chmod +x "$BIN_DIR/p2p-copy"
+
+# 5. Clear bash hash cache
+hash -r 2>/dev/null
+
+echo -e "\n${GREEN}${BOLD}✔ Installation complete!${NC}"
 echo "-------------------------------------------------------"
-echo -e "To use the program, you can:"
-echo -e "  1. Activate: ${BOLD}source .venv/bin/activate${NC}"
-echo -e "  2. Direct:   ${BOLD}/tmp/fc/.venv/bin/p2p-copy${NC}"
+echo -e "The command ${BOLD}p2p-copy${NC} is now ready."
+echo -e "Note: Make sure ${BOLD}$BIN_DIR${NC} is in your PATH."
+echo "To ensure it works now, run: export PATH=\$PATH:$BIN_DIR"
 echo "-------------------------------------------------------"
