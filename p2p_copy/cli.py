@@ -107,6 +107,7 @@ def handle_receive(args):
 
 def main():
     parser = argparse.ArgumentParser(description="p2p-copy: Secure P2P-style file transfer via intermediate storage.")
+    parser.add_argument("--version", action="version", version="p2p-copy 1.1.0")
     subparsers = parser.add_subparsers(dest="command", help="Commands")
 
     # Send command

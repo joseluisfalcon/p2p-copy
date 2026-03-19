@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "p2p-copy"
+version = "1.1.0"
+description = "Secure P2P-style file transfer via intermediate storage"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+authors = [
+    {name = "Jose Falcón", email = "josefalcon@gmail.com"}
+]
+dependencies = [
+    "cryptography",
+    "requests"
+]
+
+[project.scripts]
+p2p-copy = "p2p_copy.cli:main"
