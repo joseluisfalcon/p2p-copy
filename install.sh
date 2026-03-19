@@ -25,8 +25,8 @@ fi
 echo -e "${YELLOW}Step 3: Setting up internal environment in $INSTALL_DIR...${NC}"
 cd "$INSTALL_DIR"
 python3 -m venv .venv
-.venv/bin/pip install --upgrade pip &>/dev/null
-.venv/bin/pip install -e . &>/dev/null
+.venv/bin/pip install --upgrade pip
+.venv/bin/pip install -e .
 
 # 4. Create the global shim/access in $BIN_DIR
 echo -e "${YELLOW}Step 4: Creating global command...${NC}"
@@ -41,7 +41,7 @@ hash -r 2>/dev/null
 
 echo -e "\n${GREEN}${BOLD}✔ Installation complete!${NC}"
 echo "-------------------------------------------------------"
-echo -e "The command ${BOLD}p2p-copy${NC} is now ready."
+echo -e "The command ${BOLD}p2pc-secure${NC} is now ready."
 echo -e "Note: Make sure ${BOLD}$BIN_DIR${NC} is in your PATH."
 echo "To ensure it works now, run: export PATH=\$PATH:$BIN_DIR"
 echo "-------------------------------------------------------"

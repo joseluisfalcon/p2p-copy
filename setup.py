@@ -9,6 +9,7 @@ setup(
     install_requires=[
         "cryptography",
         "requests",
+        "cffi",
     ],
     entry_points={
         "console_scripts": [

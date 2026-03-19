@@ -8,12 +8,14 @@ set "SCRIPTS_DIR=%INSTALL_DIR%\.venv\Scripts"
 echo -------------------------------------------------------
 echo   p2pc-secure: Windows Installer
 echo -------------------------------------------------------
-echo   ____ ___   ____        ______
-echo  / __ \__ \ / __ \      / ____/___  ____  __  __
-echo / /_/ /_/ // /_/ /_____/ /   / __ \/ __ \/ / / /
-echo / ____/ __// ____/_____/ /___/ /_/ / /_/ / /_/ /   
-echo /_/   /____/_/          \____/\____/ .___/\__, /    
-echo                                  /_/    /____/     
+echo.
+echo       ____ ___     ____        ______                                 
+echo      / __ \__ \   / __ \      / ____/___  ____  __  __  
+echo     / /_/ /_/ /  / /_/ /_____/ /   / __ \/ __ \/ / / /  
+echo    / ____/ __/_ / ____/_____/ /___/ /_/ / /_/ / /_/ /   
+echo   /_/   /____/ /_/          \____/\____/ .___/\__, /    
+echo                                       /_/    /____/     
+echo.
 
 :: 1. Check Python
 where python >nul 2>nul
@@ -36,8 +38,10 @@ echo Step 3: Setting up internal environment (this may take a minute)...
 cd /d "%INSTALL_DIR%"
 python -m venv .venv
 call .venv\Scripts\activate.bat
-python -m pip install --upgrade pip >nul 2>&1
-python -m pip install -e . >nul 2>&1
+echo [34mInstalling dependencies...[0m
+python -m pip install --upgrade pip
+python -m pip install cffi cryptography
+python -m pip install -e .
 
 :: 5. Add to PATH automatically using PowerShell
 echo Step 4: Registering p2pc-secure in your system PATH...

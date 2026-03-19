@@ -14,7 +14,8 @@ authors = [
 ]
 dependencies = [
     "cryptography",
-    "requests"
+    "requests",
+    "cffi",
 ]
 
 [project.scripts]
