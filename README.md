@@ -11,8 +11,14 @@ Secure P2P-style file transfer via intermediate storage for NAT-restricted Linux
 
 ## Installation
 
+### Linux
 ```bash
-pip install .
+./install.sh
+```
+
+### Windows
+```cmd
+install.bat
 ```
 
 ## Usage
