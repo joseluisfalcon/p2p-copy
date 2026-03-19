@@ -14,16 +14,14 @@ RED = "\033[91m"
 BOLD = "\033[1m"
 ENDC = "\033[0m"
 
-BANNER = f"""
-{BLUE}{BOLD}
-    ____ ___   ____        ______                      
-   / __ \\__ \\ / __ \\      / ____/___  ____  __  __ 
-  / /_/ /_/ // /_/ /_____/ /   / __ \\/ __ \\/ / / / 
- / ____/ __// ____/_____/ /___/ /_/ / /_/ / /_/ /  
-/_/   /____/_/          \\____/\\____/ .___/\\__, /   
-                                  /_/    /____/    
-{ENDC}{YELLOW}   Secure P2P-style file transfer via intermediate storage{ENDC}
-"""
+BANNER = rf"""
+{BLUE}{BOLD}     ____ ___     ____        ______                                 {ENDC}
+{BLUE}{BOLD}    / __ \__ \   / __ \      / ____/___  ____  __  __  {ENDC}
+{BLUE}{BOLD}   / /_/ /_/ /  / /_/ /_____/ /   / __ \/ __ \/ / / /  {ENDC}
+{BLUE}{BOLD}  / ____/ __/_ / ____/_____/ /___/ /_/ / /_/ / /_/ /   {ENDC}
+{BLUE}{BOLD} /_/   /____/ /_/          \____/\____/ .___/\__, /    {ENDC}
+{BLUE}{BOLD}                                     /_/    /____/     {ENDC}
+{ENDC}{YELLOW}      p2pc-secure: Secure P2P-style file transfer{ENDC}"""
 
 def print_progress(current, total):
     """Simple text-based progress bar."""
@@ -62,7 +60,7 @@ def handle_send(args):
         
         print(f"\n{GREEN}{BOLD}✔ Upload complete!{ENDC}")
         print(f"\n{BOLD}Give this command to the recipient:{ENDC}")
-        print(f"{BLUE}{BOLD}p2p-copy receive {url} --password {password} --output {os.path.basename(args.file)}{ENDC}")
+        print(f"{BLUE}{BOLD}p2pc-secure receive {url} --password {password} --output {os.path.basename(args.file)}{ENDC}")
     except Exception as e:
         print(f"{RED}Error during send: {e}{ENDC}")
         sys.exit(1)

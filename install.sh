@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Configuration
-INSTALL_DIR="$HOME/.p2p-copy"
+INSTALL_DIR="$HOME/.p2pc-secure"
 BIN_DIR="$HOME/.local/bin"
 BLUE='\033[94m'; GREEN='\033[92m'; YELLOW='\033[93m'; RED='\033[91m'; BOLD='\033[1m'; NC='\033[0m'
 
-echo -e "${BLUE}${BOLD}--- p2p-copy: Installer ---${NC}"
+echo -e "${BLUE}${BOLD}--- p2pc-secure: Installer ---${NC}"
 
 # 1. Prepare target directory
 echo -e "${YELLOW}Step 1: Preparing permanent home in $INSTALL_DIR...${NC}"
@@ -30,11 +30,11 @@ python3 -m venv .venv
 
 # 4. Create the global shim/access in $BIN_DIR
 echo -e "${YELLOW}Step 4: Creating global command...${NC}"
-cat > "$BIN_DIR/p2p-copy" <<EOF
+cat > "$BIN_DIR/p2pc-secure" <<EOF
 #!/bin/bash
-"$INSTALL_DIR/.venv/bin/p2p-copy" "\$@"
+"$INSTALL_DIR/.venv/bin/p2pc-secure" "\$@"
 EOF
-chmod +x "$BIN_DIR/p2p-copy"
+chmod +x "$BIN_DIR/p2pc-secure"
 
 # 5. Clear bash hash cache
 hash -r 2>/dev/null

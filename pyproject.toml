@@ -3,8 +3,8 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "p2p-copy"
-version = "1.1.0"
+name = "p2pc-secure"
+version = "1.2.0"
 description = "Secure P2P-style file transfer via intermediate storage"
 readme = "README.md"
 requires-python = ">=3.7"
@@ -18,4 +18,4 @@ dependencies = [
 ]
 
 [project.scripts]
-p2p-copy = "p2p_copy.cli:main"
+p2pc-secure = "p2p_copy.cli:main"

@@ -1,6 +1,6 @@
-# p2p-copy
+# p2pc-secure
 
-![p2p-copy Demo](assets/demo.png)
+![p2pc-secure Demo](assets/demo.png)
 
 Secure P2P-style file transfer via intermediate storage for NAT-restricted Linux systems.
 
@@ -28,7 +28,7 @@ install.bat
 ### Send a file
 
 ```bash
-p2p-copy send <file_path> [--password <pass>] [--provider <name>]
+p2pc-secure send <file_path> [--password <pass>] [--provider <name>]
 ```
 
 Supported providers:
@@ -40,14 +40,14 @@ Supported providers:
 
 If you have your own server that can open ports, you can use it as a relay:
 ```bash
-p2p-copy send <file> --relay-url https://your-relay-server.com/upload
+p2pc-secure send <file> --relay-url https://your-relay-server.com/upload
 ```
 The relay should accept a POST request with the file and return the download URL as plain text.
 
 ### Receive a file
 
 ```bash
-p2p-copy receive <url> --password <pass> [--output <path>]
+p2pc-secure receive <url> --password <pass> [--output <path>]
 ```
 
 ## Security

@@ -2,9 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.0] - 2026-03-19
+## [1.2.0] - 2026-03-19
 
 ### Added
+- **Project Rename**: Renamed to **p2pc-secure** to ensure unique PyPI registration and avoid name conflicts.
 - **Aesthetics**: New ASCII banner and ANSI color support for a premium CLI experience.
 - **Progress Bar**: Real-time visual feedback for both uploads and downloads.
 - **Cross-Platform**: Full support for **macOS** and **Windows** (including `install.bat`).
