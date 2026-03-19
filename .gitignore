@@ -1,3 +1,14 @@
 .venv/
 activate
-p2p_copy.egg-info/
+*.egg-info/
+
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Other common artifacts
+build/
+dist/
+.pytest_cache/
+.coverage

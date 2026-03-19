@@ -2,6 +2,13 @@
 
 Secure P2P-style file transfer via intermediate storage for NAT-restricted Linux systems.
 
+## Features
+
+- **Local Encryption**: AES-256-GCM (authenticated encryption).
+- **Multiple Providers**: `Litterbox` (default), `File.io`, `PixelDrain`, and Custom Relays.
+- **Visual Progress**: Real-time progress bar for uploads/downloads.
+- **Improved UX**: Visual ANSI colors, ASCII banners, and automatic command generation for recipients.
+
 ## Installation
 
 ```bash

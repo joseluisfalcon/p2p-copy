@@ -6,6 +6,25 @@ import requests
 from .encryptor import encrypt_file, decrypt_file
 from .providers import get_provider
 
+# ANSI Color codes
+BLUE = "\033[94m"
+GREEN = "\033[92m"
+YELLOW = "\033[93m"
+RED = "\033[91m"
+BOLD = "\033[1m"
+ENDC = "\033[0m"
+
+BANNER = f"""
+{BLUE}{BOLD}
+    ____ ___   ____        ______                      
+   / __ \\__ \\ / __ \\      / ____/___  ____  __  __ 
+  / /_/ /_/ // /_/ /_____/ /   / __ \\/ __ \\/ / / / 
+ / ____/ __// ____/_____/ /___/ /_/ / /_/ / /_/ /  
+/_/   /____/_/          \\____/\\____/ .___/\\__, /   
+                                  /_/    /____/    
+{ENDC}{YELLOW}   Secure P2P-style file transfer via intermediate storage{ENDC}
+"""
+
 def print_progress(current, total):
     """Simple text-based progress bar."""
     bar_length = 40
@@ -40,10 +59,12 @@ def handle_send(args):
             provider = get_provider(args.provider)
             
         url = provider.upload(encrypted_file, progress_callback=print_progress)
-        print(f"\nUpload complete!")
-        print(f"Share this URL with the recipient: {url}")
+        
+        print(f"\n{GREEN}{BOLD}✔ Upload complete!{ENDC}")
+        print(f"\n{BOLD}Give this command to the recipient:{ENDC}")
+        print(f"{BLUE}{BOLD}p2p-copy receive {url} --password {password} --output {os.path.basename(args.file)}{ENDC}")
     except Exception as e:
-        print(f"Error during send: {e}")
+        print(f"{RED}Error during send: {e}{ENDC}")
         sys.exit(1)
     finally:
         if os.path.exists(encrypted_file):
@@ -102,6 +123,8 @@ def main():
     receive_parser.add_argument("--password", help="Decryption password (optional, will prompt if not provided)")
 
     args = parser.parse_args()
+    if args.command in ["send", "receive"]:
+        print(BANNER)
 
     if args.command == "send":
         handle_send(args)
